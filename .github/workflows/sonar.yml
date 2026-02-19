@@ -18,9 +18,10 @@ jobs:
       
       - name: Build and test with Maven
         run: mvn clean verify
-      
+  
       - name: Run SonarQube analysis
-        run: mvn sonar:sonar \
-          -Dsonar.projectKey=localproject-lara \
-          -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
-          -Dsonar.token=${{ secrets.SONAR_TOKEN }}
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        run: |
+          mvn sonar:sonar -Dsonar.projectKey=localproject-lara -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.token=${SONAR_TOKEN}
